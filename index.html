@@ -1106,6 +1106,15 @@
   .equipe-chip:hover{ background:#f0f0f3; }
   .equipe-chip.active{ background:#0f2a44; color:#fff; border-color:#0f2a44; }
 
+
+  /* ---- Sauvegarde manuelle ---- */
+  .topbar-right{ flex-wrap:wrap; justify-content:flex-end; row-gap:4px; }
+  .sync-btn:disabled{ opacity:.6; cursor:progress; }
+  .sync-btn.dirty{ border-color:#ffb020; }
+  .sync-btn.dirty #sync-label::after{ content:' ●'; color:#ffb020; }
+  .sync-info{ flex-basis:100%; text-align:right; font-size:11px; line-height:1.3; color:#C7D3DC; }
+  .sync-toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); max-width:90vw; background:#0f2a44; color:#fff; padding:12px 18px; border-radius:10px; font-size:13px; box-shadow:0 4px 18px rgba(0,0,0,.3); z-index:99999; }
+
   /* ================  FIN THEME FM 2011  ================ */
   .psr-field{ display:flex; align-items:center; gap:6px; }
   .psr-field label{ color:rgba(255,255,255,0.55); margin:0; font-size:11.5px; }
@@ -1120,8 +1129,10 @@
 <div class="topbar">
   <div class="brand"><img class="brand-logo" src="data:image/jpeg;base64,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" alt="Tactileague"></div>
   <div class="topbar-right">
-    <button type="button" class="sync-btn" id="sync-btn" onclick="actualiserDonnees()" title="Enregistrer mes modifications et suppressions, et récupérer celles des autres appareils"><span id="sync-label">🔄 Actualiser</span></button>
+    <button type="button" class="sync-btn" id="sync-btn" onclick="sauvegarderMaintenant()" title="Envoyer mes données en ligne (l'appareil et l'heure sont enregistrés avec la sauvegarde)"><span id="sync-label">💾 Sauvegarder</span></button>
+    <button type="button" class="sync-btn" id="restore-btn" onclick="recupererDerniereSauvegarde()" title="Retrouver la dernière sauvegarde en ligne, faite sur n'importe quel appareil">⬇ Récupérer</button>
     <div class="clock" id="clock"></div>
+    <div class="sync-info" id="sync-info"></div>
   </div>
 </div>
 
@@ -1904,12 +1915,10 @@ async function loadData(key){
     console.error('Erreur de lecture (' + key + ')', e);
     val = memoryStore[key] || [];
   }
-  trackKnown(key, val);
   return val;
 }
 async function saveData(key, arr){
   const mode = await detectStorage();
-  await trackDeletions(key, arr); /* mémorise les éléments supprimés (voir « Synchronisation fiable ») */
   memoryStore[key] = arr;
   try{
     if(mode === 'idb'){ await idbSet(key, JSON.stringify(arr)); }
@@ -1918,7 +1927,7 @@ async function saveData(key, arr){
     console.error('Erreur d’enregistrement (' + key + ')', e);
     alert("Vos modifications restent affichées mais n'ont pas pu être sauvegardées durablement (stockage plein ou bloqué). Pensez à exporter une sauvegarde JSON depuis l'accueil.");
   }
-  pushToFirestore(key, arr); /* no-op si pas connecté ; voir plus bas */
+  markLocalChange(key).catch(() => {}); /* signale « modifications non sauvegardées » (voir Sauvegarde manuelle) */
   return true;
 }
 function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
@@ -1942,8 +1951,6 @@ const FIREBASE_CONFIG = {
 };
 const SYNC_COLLECTIONS = ['effectif','agenda','seances','match','exercicesBanque','materiel'];
 let fbAuth = null, fbDb = null, fbUser = null;
-let fbUnsubscribes = [];
-let fbSyncing = false; /* true pendant le pull initial après connexion, pour éviter les écritures concurrentes */
 
 function initFirebase(){
   try{
@@ -1956,30 +1963,21 @@ function initFirebase(){
     console.error('Initialisation Firebase impossible', e);
   }
 }
-/* Un document Firestore est limité à 1 Mo. Or "séances" et la banque d'exercices contiennent des
-   photos encodées en base64 : chaque élément (joueur, séance, match...) a donc son propre document,
-   sous users/{uid}/data/{cle}/items/{idDeLÉlément}. Les suppressions sont mémorisées sous
-   users/{uid}/data/suppressions/items/{cle_id}. */
 /* ============================================================================
-   SYNCHRONISATION FIABLE : suppressions mémorisées + bouton « Actualiser »
-   Problème corrigé : un élément supprimé « revenait » car, lors de la synchronisation, un appareil
-   qui avait encore l'élément (ou qui avait supprimé hors connexion) le renvoyait ou le récupérait
-   depuis le cloud. On garde donc une trace explicite de chaque suppression (« pierre tombale »),
-   stockée localement ET dans le cloud, et on mémorise quels éléments ont déjà été synchronisés.
-   Règles :
-   - un élément supprimé n'est JAMAIS recréé par une synchronisation ;
-   - un élément absent du cloud mais déjà synchronisé auparavant = supprimé ailleurs → retiré ici ;
-   - un élément jamais synchronisé (créé hors connexion) est conservé et envoyé ;
-   - les modifications en attente d'envoi (hors connexion) gagnent sur la version du cloud ;
-   - garde-fou : si le cloud est vide, on ne vide JAMAIS le local.
+   SAUVEGARDE MANUELLE (plus de synchronisation constante)
+   - Rien n'est envoyé ni reçu automatiquement : vous choisissez le moment avec « 💾 Sauvegarder ».
+   - Chaque sauvegarde mémorise l'APPAREIL et l'HEURE. Au démarrage (ou avec « ⬇ Récupérer »),
+     l'appareil retrouve la dernière sauvegarde en ligne, quel que soit l'appareil qui l'a faite.
+   - Garde-fous : si une sauvegarde plus récente existe alors que cet appareil a des modifications
+     non sauvegardées (ou n'a jamais été relié au compte), l'application demande quoi conserver
+     avant de remplacer quoi que ce soit.
+   Cloud : users/{uid}/data/{cle}/items/{id} (1 document par élément, car 1 Mo max par document)
+           users/{uid}/data/sauvegarde/items/derniere (date, appareil, liste des éléments + empreintes)
    ============================================================================ */
-const knownIds = {};      /* ids connus à la dernière lecture/écriture locale, par collection */
-let tombCache = null;     /* { collection: { id: horodatage } } suppressions */
-let syncedCache = null;   /* { collection: { id: true } } éléments déjà présents dans le cloud */
-let dirtyCache = null;    /* { collection: true } modifications locales pas encore envoyées */
-const dirtyVer = {};
-const flushChain = {};
-const tombFlushed = new Set();
+let syncState = null;       /* { uid, baseSaveId, dirty, deviceId, deviceName } — état local de cet appareil */
+let lastCloudMeta = null;   /* dernière sauvegarde en ligne connue */
+let syncBusy = false;
+let localChangeVer = 0;
 function isSyncKey(k){ try{ return SYNC_COLLECTIONS.includes(k); }catch(e){ return false; } }
 function idOf(it){ return (it && it.id != null) ? String(it.id) : null; }
 async function metaGet(name){
@@ -1996,275 +1994,304 @@ async function metaSet(name, val){
   try{
     if(mode === 'idb') await idbSet(name, JSON.stringify(val));
     else if(mode === 'local') localStorage.setItem('equipe:' + name, JSON.stringify(val));
-  }catch(e){ console.error('Métadonnées de synchronisation non enregistrées (' + name + ')', e); }
+  }catch(e){ console.error('État de sauvegarde non enregistré (' + name + ')', e); }
 }
-async function getTombs(){ if(!tombCache) tombCache = await metaGet('__tombstones'); return tombCache; }
-async function getSynced(){ if(!syncedCache) syncedCache = await metaGet('__synced'); return syncedCache; }
-async function getDirty(){ if(!dirtyCache) dirtyCache = await metaGet('__dirty'); return dirtyCache; }
-function trackKnown(key, arr){
-  if(!isSyncKey(key)) return;
-  knownIds[key] = new Set((arr || []).map(idOf).filter(x => x !== null));
+let syncStatePromise = null; /* une seule lecture, partagée : évite que deux appels simultanés créent deux copies de l'état */
+function getSyncState(){
+  if(!syncStatePromise) syncStatePromise = metaGet('__sync').then(s => (syncState = s));
+  return syncStatePromise;
 }
-/* Appelé à chaque enregistrement : tout élément qui était là et n'y est plus = suppression. */
-async function trackDeletions(key, arr){
+async function saveSyncState(){ await metaSet('__sync', syncState); }
+function cyrb53(str, seed){
+  let h1 = 0xdeadbeef ^ (seed || 0), h2 = 0x41c6ce57 ^ (seed || 0);
+  for(let i = 0, ch; i < str.length; i++){ ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+}
+/* Appelé à chaque modification locale : l'appareil a des changements non sauvegardés. */
+async function markLocalChange(key){
   if(!isSyncKey(key)) return;
-  const newIds = new Set((arr || []).map(idOf).filter(x => x !== null));
-  const prev = knownIds[key];
-  const tombs = await getTombs();
-  let changed = false;
-  if(prev){
-    prev.forEach(id => { if(!newIds.has(id)){ (tombs[key] = tombs[key] || {})[id] = Date.now(); changed = true; } });
-  }
-  if(tombs[key]){
-    Object.keys(tombs[key]).forEach(id => {
-      if(newIds.has(id)){ /* élément réintroduit (ex. import d'une sauvegarde) */
-        delete tombs[key][id]; changed = true;
-        const tid = key + '_' + id; tombFlushed.delete(tid);
-        if(fbUser && fbDb){ try{ tombCollRef().doc(tid).delete().catch(() => {}); }catch(e){} }
-      }
-    });
-  }
-  knownIds[key] = newIds;
-  if(changed) await metaSet('__tombstones', tombs);
+  localChangeVer++;
+  const st = await getSyncState();
+  if(!st.dirty){ st.dirty = true; await saveSyncState(); }
+  updateSyncUI();
 }
 async function persistLocal(key, items){
-  memoryStore[key] = items; trackKnown(key, items);
+  memoryStore[key] = items;
   const mode = await detectStorage();
   try{
     if(mode === 'idb') await idbSet(key, JSON.stringify(items));
     else if(mode === 'local') localStorage.setItem('equipe:' + key, JSON.stringify(items));
-  }catch(e){ console.error('Enregistrement local impossible (' + key + ')', e); }
+  }catch(e){ console.error('Enregistrement local impossible (' + key + ')', e); throw e; }
 }
-/* Fusion cloud + local pour UNE collection (fonction pure, sans effet de bord). */
-function mergeCloudLocal(cloud, local, tombKey, isSynced, isDirty){
-  const dead = id => id !== null && !!tombKey[id];
-  const cloudL = cloud.filter(it => !dead(idOf(it)));
-  const localL = local.filter(it => !dead(idOf(it)));
-  const cloudIds = new Set(cloudL.map(idOf));
-  const localById = new Map(); localL.forEach(it => { const id = idOf(it); if(id !== null) localById.set(id, it); });
-  const items = [], localOnly = []; let dropped = 0;
-  cloudL.forEach(it => {
-    const id = idOf(it);
-    items.push((isDirty && id !== null && localById.has(id)) ? localById.get(id) : it);
-  });
-  localL.forEach(it => {
-    const id = idOf(it);
-    if(id === null){ items.push(it); return; }
-    if(cloudIds.has(id)) return;
-    if(isSynced(id) && cloudL.length > 0){ dropped++; return; } /* supprimé depuis un autre appareil */
-    items.push(it); localOnly.push(it);                          /* nouveau ici : à envoyer */
-  });
-  return { items, localOnly, dropped, cloudIds };
-}
-function mergeTombDoc(tombs, t){
-  if(!t || !t.key || t.id == null) return false;
-  const cur = (tombs[t.key] = tombs[t.key] || {});
-  const id = String(t.id);
-  if(cur[id] !== undefined) return false;
-  cur[id] = t.ts || Date.now(); return true;
+async function isLocalEmpty(){
+  for(const k of SYNC_COLLECTIONS){ const a = await loadData(k); if(a.length) return false; }
+  return true;
 }
 function itemsCollectionRef(key){
   return fbDb.collection('users').doc(fbUser.uid).collection('data').doc(key).collection('items');
 }
-function tombCollRef(){
-  return fbDb.collection('users').doc(fbUser.uid).collection('data').doc('suppressions').collection('items');
+function sauvegardeMetaRef(){
+  return fbDb.collection('users').doc(fbUser.uid).collection('data').doc('sauvegarde').collection('items').doc('derniere');
 }
-async function hasUnflushedTombs(key){
-  const t = (await getTombs())[key] || {};
-  return Object.keys(t).some(id => !tombFlushed.has(key + '_' + id));
+async function getCloudMeta(){
+  const snap = await sauvegardeMetaRef().get();
+  lastCloudMeta = snap.exists ? snap.data() : null;
+  updateSyncUI();
+  return lastCloudMeta;
 }
-/* Envoie vers le cloud : tous les éléments locaux + les suppressions mémorisées. */
-async function doFlush(key){
-  if(!fbUser || !fbDb) return false;
-  const ver = dirtyVer[key] || 0;
-  const arr = memoryStore[key] || [];
-  const tombs = (await getTombs())[key] || {};
-  const colRef = itemsCollectionRef(key);
-  const ops = []; const tids = [];
-  Object.keys(tombs).forEach(id => {
-    const tid = key + '_' + id;
-    if(tombFlushed.has(tid)) return;
-    ops.push({ type:'delete', ref: colRef.doc(id) });
-    ops.push({ type:'set', ref: tombCollRef().doc(tid), data:{ key, id, ts: tombs[id] } });
-    tids.push(tid);
-  });
-  arr.forEach(item => { const id = idOf(item); if(id !== null && !tombs[id]) ops.push({ type:'set', ref: colRef.doc(id), data: item }); });
-  for(let i = 0; i < ops.length; i += 400){
-    const batch = fbDb.batch();
-    ops.slice(i, i + 400).forEach(op => { if(op.type === 'delete') batch.delete(op.ref); else batch.set(op.ref, op.data); });
-    await batch.commit();
+/* ---------- Nom de l'appareil ---------- */
+function guessDeviceName(){
+  const ua = (typeof navigator !== 'undefined' && navigator.userAgent) || '';
+  if(/iPad|Tablet/i.test(ua) || (/Android/i.test(ua) && !/Mobile/i.test(ua))) return 'Tablette';
+  if(/iPhone|Android/i.test(ua)) return 'Téléphone';
+  if(/Windows|Macintosh|Linux|CrOS/i.test(ua)) return 'Ordinateur';
+  return 'Appareil';
+}
+async function ensureDevice(){
+  const st = await getSyncState(); let changed = false;
+  if(!st.deviceId){ st.deviceId = uid(); changed = true; }
+  if(!st.deviceName){
+    let n = null;
+    try{ n = prompt("Donnez un nom à cet appareil (ex. : Tablette, Téléphone). Il sera indiqué dans chaque sauvegarde :", guessDeviceName()); }catch(e){}
+    st.deviceName = ((n || '').trim()) || guessDeviceName(); changed = true;
   }
-  tids.forEach(t => tombFlushed.add(t));
-  const synced = await getSynced();
-  const s = (synced[key] = synced[key] || {});
-  arr.forEach(item => { const id = idOf(item); if(id !== null) s[id] = true; });
-  Object.keys(tombs).forEach(id => { delete s[id]; });
-  await metaSet('__synced', synced);
-  if((dirtyVer[key] || 0) === ver){ const d = await getDirty(); if(d[key]){ delete d[key]; await metaSet('__dirty', d); } }
-  return true;
+  if(changed) await saveSyncState();
+  return st;
 }
-function flushKey(key){
-  const run = () => doFlush(key);
-  flushChain[key] = (flushChain[key] || Promise.resolve()).then(run, run);
-  return flushChain[key];
+async function renommerAppareil(){
+  const st = await ensureDevice();
+  let n = null;
+  try{ n = prompt('Nom de cet appareil :', st.deviceName); }catch(e){}
+  n = (n || '').trim();
+  if(n){ st.deviceName = n; await saveSyncState(); updateSyncUI(); if(document.getElementById('modal-overlay').classList.contains('show')) openCompteModal(); }
 }
-function pushToFirestore(key, arr){
-  if(!isSyncKey(key)) return;
-  dirtyVer[key] = (dirtyVer[key] || 0) + 1;
-  getDirty().then(d => { d[key] = true; return metaSet('__dirty', d); }).catch(() => {});
-  if(!fbUser || !fbDb || fbSyncing) return;
-  setSyncStatus('busy');
-  flushKey(key).then(() => setSyncStatus('ok')).catch(e => { console.error('Synchronisation (push) impossible pour', key, e); setSyncStatus('error'); });
-}
-async function pullAllFromFirestore(){
-  fbSyncing = true;
-  try{
-    const tombs = await getTombs();
-    try{
-      const ts = await tombCollRef().get();
-      ts.forEach(d => mergeTombDoc(tombs, d.data()));
-      ts.forEach(d => { const t = d.data(); if(t && t.key) tombFlushed.add(t.key + '_' + t.id); });
-      await metaSet('__tombstones', tombs);
-    }catch(e){ console.error('Lecture des suppressions impossible', e); }
-    const synced = await getSynced(); const dirty = await getDirty();
-    for(const key of SYNC_COLLECTIONS){
-      try{
-        const snap = await itemsCollectionRef(key).get();
-        const cloud = snap.docs.map(d => d.data());
-        const local = await loadData(key);
-        const s = (synced[key] = synced[key] || {});
-        const res = mergeCloudLocal(cloud, local, tombs[key] || {}, id => !!s[id], !!dirty[key]);
-        res.cloudIds.forEach(id => { s[id] = true; });
-        await persistLocal(key, res.items);
-        if(res.dropped) console.info(`Pull "${key}" : ${res.dropped} élément(s) supprimé(s) sur un autre appareil retiré(s) d'ici.`);
-        if(res.localOnly.length || dirty[key] || await hasUnflushedTombs(key)) await flushKey(key);
-      }catch(e){ console.error('Synchronisation (pull) impossible pour', key, e); throw e; }
-    }
-    await metaSet('__synced', synced);
-  }finally{ fbSyncing = false; }
+/* ---------- Récupération (cloud → cet appareil) ---------- */
+async function restoreFromCloud(meta){
+  const manifest = meta.manifest || {}; const fetched = {};
+  for(const key of SYNC_COLLECTIONS){
+    const want = manifest[key] || {};
+    const snap = await itemsCollectionRef(key).get();
+    const items = snap.docs.map(d => d.data()).filter(it => { const id = idOf(it); return id !== null && want[id] !== undefined; });
+    const nWant = Object.keys(want).length;
+    if(items.length !== nWant) throw new Error('Sauvegarde en ligne incomplète pour « ' + key + ' » (' + items.length + '/' + nWant + '). Les données de cet appareil n\'ont pas été modifiées.');
+    fetched[key] = items;
+  }
+  for(const key of SYNC_COLLECTIONS) await persistLocal(key, fetched[key]);
+  const st = await getSyncState(); st.baseSaveId = meta.saveId; st.dirty = false; await saveSyncState();
+  lastCloudMeta = meta;
   if(typeof renderAll === 'function') renderAll();
+  if(typeof refreshCounts === 'function') refreshCounts();
+  updateSyncUI();
 }
-function attachFirestoreListeners(){
-  SYNC_COLLECTIONS.forEach(key => {
-    const unsub = itemsCollectionRef(key).onSnapshot(async snap => {
-      if(fbSyncing) return;
-      try{
-        const tombs = await getTombs(); const synced = await getSynced(); const dirty = await getDirty();
-        const cloud = snap.docs.map(d => d.data());
-        const s = (synced[key] = synced[key] || {});
-        const res = mergeCloudLocal(cloud, memoryStore[key] || [], tombs[key] || {}, id => !!s[id], !!dirty[key]);
-        res.cloudIds.forEach(id => { s[id] = true; });
-        await persistLocal(key, res.items);
-        metaSet('__synced', synced);
-        if(typeof renderAll === 'function') renderAll();
-        if(res.localOnly.length && !dirty[key]) flushKey(key).catch(e => console.error('Re-synchronisation impossible pour', key, e));
-      }catch(e){ console.error('Traitement de l\'écoute impossible pour', key, e); }
-    }, e => console.error('Écoute Firestore impossible pour', key, e));
-    fbUnsubscribes.push(unsub);
+/* ---------- Envoi (cet appareil → cloud) : ne renvoie que ce qui a changé ---------- */
+async function envoyerVersCloud(prevMeta){
+  const st = await ensureDevice();
+  const ver = localChangeVer;
+  const prevManifest = (prevMeta && prevMeta.manifest) || {};
+  const manifest = {}, counts = {}, uploads = [], deletions = [];
+  for(const key of SYNC_COLLECTIONS){
+    const arr = await loadData(key);
+    manifest[key] = {}; counts[key] = arr.length;
+    arr.forEach(it => {
+      const id = idOf(it); if(id === null) return;
+      const json = JSON.stringify(it); const h = cyrb53(json);
+      manifest[key][id] = h;
+      if(!prevMeta || (prevManifest[key] || {})[id] !== h) uploads.push({ key, id, json });
+    });
+    Object.keys(prevManifest[key] || {}).forEach(id => { if(manifest[key][id] === undefined) deletions.push({ key, id }); });
+    if(!prevMeta){ /* première sauvegarde : ménage des anciens documents de l'ancienne synchronisation continue */
+      const snap = await itemsCollectionRef(key).get();
+      snap.docs.forEach(d => { if(manifest[key][d.id] === undefined) deletions.push({ key, id: d.id }); });
+    }
+  }
+  let batch = fbDb.batch(), n = 0, bytes = 0;
+  const flush = async () => { if(n){ await batch.commit(); batch = fbDb.batch(); n = 0; bytes = 0; } };
+  for(const u of uploads){
+    if(n >= 400 || (n > 0 && bytes + u.json.length > 2500000)) await flush();
+    batch.set(itemsCollectionRef(u.key).doc(u.id), JSON.parse(u.json)); n++; bytes += u.json.length;
+  }
+  for(const d of deletions){
+    if(n >= 400) await flush();
+    batch.delete(itemsCollectionRef(d.key).doc(d.id)); n++;
+  }
+  await flush();
+  const meta = { saveId: uid(), savedAt: new Date().toISOString(), deviceId: st.deviceId, deviceName: st.deviceName, manifest, counts };
+  const ref = sauvegardeMetaRef();
+  await fbDb.runTransaction(async tx => {
+    const cur = await tx.get(ref);
+    const curId = cur.exists ? cur.data().saveId : null;
+    if(curId !== (prevMeta ? prevMeta.saveId : null)) throw new Error('CONFLIT_SAUVEGARDE');
+    tx.set(ref, meta);
   });
-  /* Suppressions faites sur un autre appareil : retirées ici en temps réel. */
-  const unsubT = tombCollRef().onSnapshot(async snap => {
-    if(fbSyncing) return;
-    try{
-      const tombs = await getTombs(); let changed = false;
-      snap.docChanges().forEach(ch => { if(ch.type !== 'removed' && mergeTombDoc(tombs, ch.doc.data())){ changed = true; tombFlushed.add(ch.doc.id); } });
-      if(!changed) return;
-      await metaSet('__tombstones', tombs);
-      for(const key of SYNC_COLLECTIONS){
-        const arr = memoryStore[key] || [];
-        const kept = arr.filter(it => !((tombs[key] || {})[idOf(it)]));
-        if(kept.length !== arr.length) await persistLocal(key, kept);
-      }
-      if(typeof renderAll === 'function') renderAll();
-    }catch(e){ console.error('Traitement des suppressions impossible', e); }
-  }, e => console.error('Écoute des suppressions impossible', e));
-  fbUnsubscribes.push(unsubT);
+  st.baseSaveId = meta.saveId; st.dirty = (localChangeVer !== ver); await saveSyncState();
+  lastCloudMeta = meta; updateSyncUI();
+  return { meta, uploaded: uploads.length, deleted: deletions.length };
 }
-async function onFirebaseAuthChange(user){
-  fbUnsubscribes.forEach(u => { try{ u(); }catch(e){} });
-  fbUnsubscribes = [];
-  fbUser = user;
-  updateAccountUI();
-  if(!user){ setSyncStatus('off'); return; }
-  const last = await metaGet('__lastuid');
-  if(last.uid && last.uid !== user.uid){ /* autre compte : on repart de zéro côté suivi */
-    tombCache = {}; syncedCache = {}; dirtyCache = {}; tombFlushed.clear();
-    await metaSet('__tombstones', {}); await metaSet('__synced', {}); await metaSet('__dirty', {});
-  }
-  await metaSet('__lastuid', { uid: user.uid });
-  setSyncStatus('busy');
-  try{ await pullAllFromFirestore(); setSyncStatus('ok'); }
-  catch(e){ console.error(e); setSyncStatus('error'); }
-  attachFirestoreListeners();
+/* ---------- Fenêtre de choix en cas de conflit ---------- */
+function askSyncConflict(kind, cloud){
+  return new Promise(resolve => {
+    /* Si la fenêtre est fermée autrement qu'avec un bouton (clic à côté...), on considère « Annuler ». */
+    const ov = document.getElementById('modal-overlay'); let done = false, obs = null;
+    const finish = c => { if(done) return; done = true; try{ if(obs) obs.disconnect(); }catch(e){} resolve(c); };
+    window.__syncChoice = c => { closeModal(); finish(c); };
+    if(ov && typeof MutationObserver !== 'undefined') obs = new MutationObserver(() => { if(!ov.classList.contains('show')) finish('cancel'); });
+    const who = escapeHtml(cloud.deviceName || 'un autre appareil'), when = formatDateTime(cloud.savedAt);
+    const intro = kind === 'save'
+      ? `Une sauvegarde plus récente existe en ligne : faite sur <strong>${who}</strong> le <strong>${when}</strong>, après la dernière récupération de cet appareil.`
+      : `Une sauvegarde existe en ligne (faite sur <strong>${who}</strong> le <strong>${when}</strong>), mais cet appareil contient des données qui n'en viennent pas.`;
+    const warn = kind === 'save'
+      ? `Si vous la remplacez, les données de cet appareil deviennent la nouvelle sauvegarde et ce qui a été saisi sur ${who} depuis sera perdu.`
+      : 'Choisissez les données à conserver : l\'autre version sera perdue.';
+    openModal(`
+      <div class="modal-header"><h2>⚠ Sauvegarde en conflit</h2><button class="modal-close" onclick="__syncChoice('cancel')">✕</button></div>
+      <div class="hint" style="margin-bottom:10px;">${intro}</div>
+      <div class="hint" style="margin-bottom:16px;">${warn}</div>
+      <button class="btn-primary" style="width:100%;" onclick="__syncChoice('cloud')">⬇ Récupérer la sauvegarde de ${who}<br><span style="font-weight:400; font-size:11.5px;">(remplace les données de cet appareil)</span></button>
+      <button class="btn-secondary" style="width:100%; margin-top:10px;" onclick="__syncChoice('local')">${kind === 'save' ? '💾 Remplacer la sauvegarde par les données de cet appareil' : '💾 Garder les données de cet appareil'}</button>
+      <button class="btn-secondary" style="width:100%; margin-top:10px;" onclick="__syncChoice('cancel')">Annuler</button>`);
+    if(obs && ov) obs.observe(ov, { attributes: true, attributeFilter: ['class'] });
+  });
 }
-/* ---------- Bouton « Actualiser » : enregistre (modifs + suppressions) puis récupère les autres appareils ---------- */
-let syncBusyCount = 0;
-function setSyncStatus(state){
-  const btn = document.getElementById('sync-btn'), lab = document.getElementById('sync-label');
-  if(!btn || !lab) return;
-  if(state === 'busy') syncBusyCount++;
-  else if(state === 'off') syncBusyCount = 0;
-  else if(syncBusyCount > 0) syncBusyCount--;
-  btn.classList.remove('busy','ok','error');
-  if(state === 'off'){ lab.textContent = '🔄 Actualiser'; btn.title = 'Connectez-vous pour synchroniser vos données'; return; }
-  if(syncBusyCount > 0){ btn.classList.add('busy'); lab.textContent = '🔄 Synchronisation…'; return; }
-  if(state === 'error'){ btn.classList.add('error'); lab.textContent = '⚠ Échec — réessayer'; btn.title = 'La synchronisation a échoué : appuyez pour réessayer'; return; }
-  btn.classList.add('ok');
-  lab.textContent = '✓ Actualisé ' + new Date().toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
-  btn.title = 'Tout est enregistré et synchronisé. Appuyez pour actualiser à nouveau.';
-}
-async function actualiserDonnees(){
-  if(!fbUser || !fbDb){
-    alert("Connectez-vous à votre compte (🔐 sur l'accueil) pour enregistrer et synchroniser vos données avec vos autres appareils.");
-    if(typeof openCompteModal === 'function') openCompteModal();
-    return;
-  }
-  setSyncStatus('busy');
+function showSyncToast(msg){
   try{
-    const dirty = await getDirty();
-    for(const key of SYNC_COLLECTIONS){
-      await loadData(key);
-      if(dirty[key] || await hasUnflushedTombs(key)) await flushKey(key);
-    }
-    await pullAllFromFirestore();
-    setSyncStatus('ok');
-  }catch(e){
-    console.error('Actualisation impossible', e);
-    setSyncStatus('error');
-    alert('Actualisation impossible : ' + ((e && e.message) || 'vérifiez votre connexion internet') + '. Vos modifications restent enregistrées sur cet appareil et seront renvoyées dès que possible.');
-  }
-}
-/* Renvoi automatique des modifications / suppressions restées en attente (réseau coupé, appli fermée...). */
-async function retryPending(){
-  if(!fbUser || !fbDb || fbSyncing) return;
-  try{
-    const dirty = await getDirty();
-    for(const key of SYNC_COLLECTIONS){
-      if(dirty[key] || await hasUnflushedTombs(key)){
-        setSyncStatus('busy');
-        flushKey(key).then(() => setSyncStatus('ok')).catch(() => setSyncStatus('error'));
-      }
-    }
+    const t = document.createElement('div'); t.className = 'sync-toast'; t.textContent = msg;
+    document.body.appendChild(t); setTimeout(() => { try{ t.remove(); }catch(e){} }, 6000);
   }catch(e){}
 }
-window.addEventListener('online', retryPending);
-document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') retryPending(); });
-setInterval(retryPending, 30000);
+/* ---------- Actions des boutons ---------- */
+function needLogin(){
+  alert("Connectez-vous à votre compte (🔐) pour sauvegarder vos données en ligne et les retrouver sur vos autres appareils.");
+  if(typeof openCompteModal === 'function') openCompteModal();
+}
+async function sauvegarderMaintenant(){
+  if(!fbUser || !fbDb){ needLogin(); return; }
+  if(syncBusy) return;
+  syncBusy = true; setSyncStatus('busy');
+  try{
+    const st = await ensureDevice();
+    const cloud = await getCloudMeta();
+    if(cloud && cloud.saveId !== st.baseSaveId){
+      const choice = await askSyncConflict('save', cloud);
+      if(choice === 'cloud'){ await restoreFromCloud(cloud); setSyncStatus('ok'); showSyncToast('Sauvegarde de « ' + (cloud.deviceName || 'un autre appareil') + ' » récupérée.'); return; }
+      if(choice !== 'local'){ setSyncStatus('idle'); return; }
+    }
+    await envoyerVersCloud(cloud);
+    setSyncStatus('ok');
+  }catch(e){
+    console.error('Sauvegarde impossible', e); setSyncStatus('error');
+    alert(e && e.message === 'CONFLIT_SAUVEGARDE'
+      ? "Une autre sauvegarde vient d'être faite depuis un autre appareil pendant l'envoi : la vôtre n'a pas été validée. Appuyez à nouveau sur Sauvegarder pour choisir quoi conserver."
+      : 'Sauvegarde impossible : ' + ((e && e.message) || 'vérifiez votre connexion internet') + '. Vos données restent enregistrées sur cet appareil.');
+  }finally{ syncBusy = false; }
+}
+async function recupererDerniereSauvegarde(){
+  if(!fbUser || !fbDb){ needLogin(); return; }
+  if(syncBusy) return;
+  syncBusy = true; setSyncStatus('busy');
+  try{
+    const cloud = await getCloudMeta();
+    if(!cloud){ setSyncStatus('idle'); alert("Aucune sauvegarde en ligne pour ce compte pour l'instant."); return; }
+    const st = await getSyncState();
+    const msg = 'Remplacer les données de cet appareil par la sauvegarde faite sur « ' + (cloud.deviceName || 'un autre appareil') + ' » le ' + formatDateTime(cloud.savedAt) + ' ?'
+      + (st.dirty ? '\n\n⚠ Vos modifications non sauvegardées sur cet appareil seront perdues.' : '');
+    if(!confirm(msg)){ setSyncStatus('idle'); return; }
+    await restoreFromCloud(cloud); setSyncStatus('ok');
+    showSyncToast('Données mises à jour depuis la sauvegarde de « ' + (cloud.deviceName || 'un autre appareil') + ' ».');
+  }catch(e){
+    console.error('Récupération impossible', e); setSyncStatus('error');
+    alert('Récupération impossible : ' + ((e && e.message) || 'vérifiez votre connexion internet'));
+  }finally{ syncBusy = false; }
+}
+/* Au démarrage / à la connexion : retrouve automatiquement la dernière sauvegarde si cet appareil n'a rien à perdre. */
+async function verifierSauvegardeAuDemarrage(){
+  const st = await getSyncState();
+  const cloud = await getCloudMeta();
+  if(!cloud || cloud.saveId === st.baseSaveId) return;
+  const localVide = await isLocalEmpty();
+  if(!st.dirty && (st.baseSaveId || localVide)){
+    await restoreFromCloud(cloud);
+    showSyncToast('Données mises à jour : sauvegarde de « ' + (cloud.deviceName || 'un autre appareil') + ' » du ' + formatDateTime(cloud.savedAt) + '.');
+    return;
+  }
+  const choice = await askSyncConflict('open', cloud);
+  if(choice === 'cloud'){
+    await restoreFromCloud(cloud);
+    showSyncToast('Données mises à jour depuis la sauvegarde de « ' + (cloud.deviceName || 'un autre appareil') + ' ».');
+  }else if(choice === 'local'){
+    st.baseSaveId = cloud.saveId; st.dirty = true; await saveSyncState(); updateSyncUI();
+    showSyncToast('Données de cet appareil conservées. Appuyez sur « Sauvegarder » pour les envoyer.');
+  }
+}
+async function onFirebaseAuthChange(user){
+  fbUser = user;
+  updateAccountUI();
+  const st = await getSyncState();
+  if(!user){ lastCloudMeta = null; setSyncStatus('idle'); return; }
+  if(st.uid && st.uid !== user.uid){ st.baseSaveId = null; st.dirty = false; }
+  st.uid = user.uid; await saveSyncState();
+  setSyncStatus('busy');
+  try{ await ensureDevice(); await verifierSauvegardeAuDemarrage(); setSyncStatus('idle'); }
+  catch(e){ console.error('Vérification de la sauvegarde en ligne impossible', e); setSyncStatus('idle'); }
+}
+/* ---------- Affichage des boutons / de l'info « dernière sauvegarde » ---------- */
+let syncBusyUI = false;
+function setSyncStatus(state){
+  syncBusyUI = (state === 'busy');
+  const btn = document.getElementById('sync-btn'), lab = document.getElementById('sync-label');
+  if(btn && lab){
+    btn.classList.toggle('busy', syncBusyUI); btn.classList.toggle('error', state === 'error');
+    btn.disabled = syncBusyUI;
+    lab.textContent = syncBusyUI ? '💾 Enregistrement…' : '💾 Sauvegarder';
+  }
+  const rb = document.getElementById('restore-btn'); if(rb) rb.disabled = syncBusyUI;
+  updateSyncUI();
+}
+function updateSyncUI(){
+  const st = syncState || {};
+  const btn = document.getElementById('sync-btn');
+  if(btn) btn.classList.toggle('dirty', !!(fbUser && st.dirty));
+  const info = document.getElementById('sync-info');
+  if(!info) return;
+  let txt;
+  if(!fbUser) txt = 'Non connecté — vos données restent sur cet appareil';
+  else if(lastCloudMeta){
+    const cet = lastCloudMeta.deviceId && lastCloudMeta.deviceId === st.deviceId;
+    txt = 'Dernière sauvegarde : ' + (lastCloudMeta.deviceName || 'appareil inconnu') + (cet ? ' (cet appareil)' : '') + ' · ' + formatDateTime(lastCloudMeta.savedAt);
+  }else txt = 'Aucune sauvegarde en ligne pour l\'instant';
+  if(fbUser && st.dirty) txt += ' · ● modifications non sauvegardées';
+  info.textContent = txt;
+}
+getSyncState().then(() => updateSyncUI()).catch(() => {}); /* affichage initial de l'état de sauvegarde */
+
 
 function updateAccountUI(){
   const btn = document.getElementById('compte-btn');
   if(btn) btn.textContent = fbUser ? ('🔐 ' + fbUser.email) : '🔐 Se connecter';
 }
-function openCompteModal(){
+async function openCompteModal(){
   if(fbUser){
+    const st = await getSyncState();
+    const cet = lastCloudMeta && lastCloudMeta.deviceId && lastCloudMeta.deviceId === st.deviceId;
+    const derniere = lastCloudMeta
+      ? escapeHtml(lastCloudMeta.deviceName || 'appareil inconnu') + (cet ? ' (cet appareil)' : '') + ' · ' + formatDateTime(lastCloudMeta.savedAt)
+      : 'aucune pour l’instant';
     openModal(`
       <div class="modal-header"><h2>🔐 Mon compte</h2><button class="modal-close" onclick="closeModal()">✕</button></div>
-      <div class="hint" style="margin-bottom:14px;">Connecté en tant que <strong>${escapeHtml(fbUser.email)}</strong>. Vos données sont synchronisées automatiquement avec tout autre appareil connecté à ce même compte. Le bouton « Actualiser » en haut de l'écran force l'enregistrement de vos modifications et suppressions, et récupère celles des autres appareils.</div>
-      <button class="btn-danger-outline" style="width:100%;" onclick="firebaseLogout()">Se déconnecter</button>`);
+      <div class="hint" style="margin-bottom:14px;">Connecté en tant que <strong>${escapeHtml(fbUser.email)}</strong>. Rien n'est synchronisé automatiquement : vous choisissez le moment avec « 💾 Sauvegarder » (en haut de l'écran), et vous retrouvez la dernière sauvegarde, faite sur n'importe quel appareil, avec « ⬇ Récupérer ».</div>
+      <div class="detail-grid" style="margin-bottom:14px;">
+        <div class="detail-field" style="grid-column:1/-1;"><div class="k">Cet appareil</div><div class="v">${escapeHtml(st.deviceName || '—')} <button type="button" class="btn-secondary" style="padding:3px 10px; font-size:11.5px; margin-left:8px;" onclick="renommerAppareil()">Renommer</button></div></div>
+        <div class="detail-field" style="grid-column:1/-1;"><div class="k">Dernière sauvegarde en ligne</div><div class="v">${derniere}</div></div>
+        <div class="detail-field" style="grid-column:1/-1;"><div class="k">État de cet appareil</div><div class="v">${st.dirty ? '● Modifications non sauvegardées' : '✓ Rien à sauvegarder'}</div></div>
+      </div>
+      <button class="btn-primary" style="width:100%;" onclick="closeModal(); sauvegarderMaintenant()">💾 Sauvegarder maintenant</button>
+      <button class="btn-secondary" style="width:100%; margin-top:10px;" onclick="closeModal(); recupererDerniereSauvegarde()">⬇ Récupérer la dernière sauvegarde</button>
+      <button class="btn-danger-outline" style="width:100%; margin-top:10px;" onclick="firebaseLogout()">Se déconnecter</button>`);
   }else{
     openModal(`
       <div class="modal-header"><h2>🔐 Mon compte</h2><button class="modal-close" onclick="closeModal()">✕</button></div>
-      <div class="hint" style="margin-bottom:14px;">Connectez-vous pour synchroniser automatiquement vos données sur tous vos appareils, sans export/import manuel. Si des données existent déjà sur ce compte, elles remplaceront celles actuellement affichées sur cet appareil.</div>
+      <div class="hint" style="margin-bottom:14px;">Connectez-vous pour sauvegarder vos données en ligne et les retrouver sur vos autres appareils. Rien n'est envoyé automatiquement : c'est vous qui choisissez le moment avec le bouton « 💾 Sauvegarder ». Chaque sauvegarde mémorise l'appareil et l'heure. Si une sauvegarde existe déjà sur ce compte, l'application vous demande quoi conserver avant de remplacer quoi que ce soit.</div>
       <div class="form-grid">
         <div><label>Email</label><input type="email" id="compte-email" placeholder="vous@exemple.com"></div>
         <div><label>Mot de passe</label><input type="password" id="compte-password" placeholder="6 caractères minimum"></div>
@@ -2294,6 +2321,8 @@ async function firebaseSignup(){
   }catch(e){ setCompteError(traduireErreurFirebase(e)); }
 }
 async function firebaseLogout(){
+  const st = await getSyncState();
+  if(st.dirty && !confirm('Des modifications de cet appareil ne sont pas sauvegardées en ligne. Se déconnecter quand même ? (Elles restent enregistrées sur cet appareil.)')) return;
   try{ await fbAuth.signOut(); closeModal(); }catch(e){ alert('Déconnexion impossible : ' + e.message); }
 }
 function setCompteError(msg){ const el = document.getElementById('compte-error'); if(el) el.textContent = msg; }
