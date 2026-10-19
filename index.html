@@ -2068,12 +2068,18 @@ async function renommerAppareil(){
   if(n){ st.deviceName = n; await saveSyncState(); updateSyncUI(); if(document.getElementById('modal-overlay').classList.contains('show')) openCompteModal(); }
 }
 /* ---------- Récupération (cloud → cet appareil) ---------- */
+/* Firestore refuse les listes imbriquées (ex. [[x,y],[x,y]]) : chaque élément est donc stocké sous forme de texte JSON
+   dans { id, json }. On accepte aussi l'ancien format (champs directs) à la lecture. */
+function cloudDocToItem(data){
+  if(data && typeof data.json === 'string'){ try{ return JSON.parse(data.json); }catch(e){ return null; } }
+  return data;
+}
 async function restoreFromCloud(meta){
   const manifest = meta.manifest || {}; const fetched = {};
   for(const key of SYNC_COLLECTIONS){
     const want = manifest[key] || {};
     const snap = await itemsCollectionRef(key).get();
-    const items = snap.docs.map(d => d.data()).filter(it => { const id = idOf(it); return id !== null && want[id] !== undefined; });
+    const items = snap.docs.map(d => cloudDocToItem(d.data())).filter(it => { const id = idOf(it); return it && id !== null && want[id] !== undefined; });
     const nWant = Object.keys(want).length;
     if(items.length !== nWant) throw new Error('Sauvegarde en ligne incomplète pour « ' + key + ' » (' + items.length + '/' + nWant + '). Les données de cet appareil n\'ont pas été modifiées.');
     fetched[key] = items;
@@ -2110,7 +2116,7 @@ async function envoyerVersCloud(prevMeta){
   const flush = async () => { if(n){ await batch.commit(); batch = fbDb.batch(); n = 0; bytes = 0; } };
   for(const u of uploads){
     if(n >= 400 || (n > 0 && bytes + u.json.length > 2500000)) await flush();
-    batch.set(itemsCollectionRef(u.key).doc(u.id), JSON.parse(u.json)); n++; bytes += u.json.length;
+    batch.set(itemsCollectionRef(u.key).doc(u.id), { id: u.id, json: u.json }); n++; bytes += u.json.length;
   }
   for(const d of deletions){
     if(n >= 400) await flush();
