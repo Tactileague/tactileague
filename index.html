@@ -2067,19 +2067,49 @@ async function renommerAppareil(){
   n = (n || '').trim();
   if(n){ st.deviceName = n; await saveSyncState(); updateSyncUI(); if(document.getElementById('modal-overlay').classList.contains('show')) openCompteModal(); }
 }
-/* ---------- Récupération (cloud → cet appareil) ---------- */
-/* Firestore refuse les listes imbriquées (ex. [[x,y],[x,y]]) : chaque élément est donc stocké sous forme de texte JSON
-   dans { id, json }. On accepte aussi l'ancien format (champs directs) à la lecture. */
-function cloudDocToItem(data){
-  if(data && typeof data.json === 'string'){ try{ return JSON.parse(data.json); }catch(e){ return null; } }
+/* ---------- Format des documents en ligne ----------
+   Firestore refuse (1) les listes imbriquées et (2) tout champ de plus d'environ 1 Mo. Chaque élément est donc
+   stocké sous forme de texte JSON, découpé en morceaux de 300 000 caractères si nécessaire :
+     users/{uid}/data/{cle}/items/{id}        → { id, json, parts? }      (1er morceau ; parts = nombre de morceaux si > 1)
+     users/{uid}/data/{cle}/items/{id}__p{n}  → { of, i, json }           (morceaux suivants)
+   L'ancien format (champs directs) reste lisible. */
+const CLOUD_CHUNK_CHARS = 300000;
+function splitJson(json){
+  if(json.length <= CLOUD_CHUNK_CHARS) return [json];
+  const out = []; let i = 0;
+  while(i < json.length){
+    let end = Math.min(i + CLOUD_CHUNK_CHARS, json.length);
+    if(end < json.length){ const c = json.charCodeAt(end - 1); if(c >= 0xD800 && c <= 0xDBFF) end--; } /* ne jamais couper un émoji en deux */
+    out.push(json.slice(i, end)); i = end;
+  }
+  return out;
+}
+function cloudDocToItem(data, docsById, id){
+  if(data && typeof data.json === 'string'){
+    let json = data.json;
+    const n = data.parts || 1;
+    for(let k = 1; k < n; k++){
+      const piece = docsById[id + '__p' + k];
+      if(!piece || typeof piece.json !== 'string') return null; /* morceau manquant : sauvegarde incomplète */
+      json += piece.json;
+    }
+    try{ return JSON.parse(json); }catch(e){ return null; }
+  }
   return data;
 }
+/* ---------- Récupération (cloud → cet appareil) ---------- */
 async function restoreFromCloud(meta){
   const manifest = meta.manifest || {}; const fetched = {};
   for(const key of SYNC_COLLECTIONS){
     const want = manifest[key] || {};
     const snap = await itemsCollectionRef(key).get();
-    const items = snap.docs.map(d => cloudDocToItem(d.data())).filter(it => { const id = idOf(it); return it && id !== null && want[id] !== undefined; });
+    const docsById = {}; snap.docs.forEach(d => { docsById[d.id] = d.data(); });
+    const items = [];
+    Object.keys(want).forEach(id => {
+      if(docsById[id] === undefined) return;
+      const it = cloudDocToItem(docsById[id], docsById, id);
+      if(it && idOf(it) !== null) items.push(it);
+    });
     const nWant = Object.keys(want).length;
     if(items.length !== nWant) throw new Error('Sauvegarde en ligne incomplète pour « ' + key + ' » (' + items.length + '/' + nWant + '). Les données de cet appareil n\'ont pas été modifiées.');
     fetched[key] = items;
@@ -2096,34 +2126,58 @@ async function envoyerVersCloud(prevMeta){
   const st = await ensureDevice();
   const ver = localChangeVer;
   const prevManifest = (prevMeta && prevMeta.manifest) || {};
-  const manifest = {}, counts = {}, uploads = [], deletions = [];
+  const prevParts = (prevMeta && prevMeta.parts) || {};
+  const manifest = {}, counts = {}, parts = {}, uploads = [], deletions = [], expected = {};
   for(const key of SYNC_COLLECTIONS){
     const arr = await loadData(key);
-    manifest[key] = {}; counts[key] = arr.length;
+    manifest[key] = {}; counts[key] = arr.length; expected[key] = new Set();
     arr.forEach(it => {
       const id = idOf(it); if(id === null) return;
       const json = JSON.stringify(it); const h = cyrb53(json);
+      const pieces = splitJson(json);
       manifest[key][id] = h;
-      if(!prevMeta || (prevManifest[key] || {})[id] !== h) uploads.push({ key, id, json });
+      expected[key].add(id);
+      for(let k = 1; k < pieces.length; k++) expected[key].add(id + '__p' + k);
+      if(pieces.length > 1){ (parts[key] = parts[key] || {})[id] = pieces.length; }
+      const before = ((prevParts[key] || {})[id]) || 1;
+      if(!prevMeta || (prevManifest[key] || {})[id] !== h) uploads.push({ key, id, pieces });
+      for(let k = pieces.length; k < before; k++) deletions.push({ key, id: id + '__p' + k }); /* morceaux devenus inutiles */
     });
-    Object.keys(prevManifest[key] || {}).forEach(id => { if(manifest[key][id] === undefined) deletions.push({ key, id }); });
-    if(!prevMeta){ /* première sauvegarde : ménage des anciens documents de l'ancienne synchronisation continue */
+    Object.keys(prevManifest[key] || {}).forEach(id => {
+      if(manifest[key][id] === undefined){
+        deletions.push({ key, id });
+        const before = ((prevParts[key] || {})[id]) || 1;
+        for(let k = 1; k < before; k++) deletions.push({ key, id: id + '__p' + k });
+      }
+    });
+  }
+  /* Première sauvegarde : ménage des anciens documents (ancienne synchronisation continue, essais échoués...) */
+  if(!prevMeta){
+    for(const key of SYNC_COLLECTIONS){
       const snap = await itemsCollectionRef(key).get();
-      snap.docs.forEach(d => { if(manifest[key][d.id] === undefined) deletions.push({ key, id: d.id }); });
+      snap.docs.forEach(d => { if(!expected[key].has(d.id)) deletions.push({ key, id: d.id }); });
     }
   }
   let batch = fbDb.batch(), n = 0, bytes = 0;
   const flush = async () => { if(n){ await batch.commit(); batch = fbDb.batch(); n = 0; bytes = 0; } };
+  const setDoc = async (key, docId, data, size) => {
+    if(n >= 400 || (n > 0 && bytes + size > 2500000)) await flush();
+    batch.set(itemsCollectionRef(key).doc(docId), data); n++; bytes += size;
+  };
   for(const u of uploads){
-    if(n >= 400 || (n > 0 && bytes + u.json.length > 2500000)) await flush();
-    batch.set(itemsCollectionRef(u.key).doc(u.id), { id: u.id, json: u.json }); n++; bytes += u.json.length;
+    const first = { id: u.id, json: u.pieces[0] }; if(u.pieces.length > 1) first.parts = u.pieces.length;
+    await setDoc(u.key, u.id, first, u.pieces[0].length);
+    for(let k = 1; k < u.pieces.length; k++) await setDoc(u.key, u.id + '__p' + k, { of: u.id, i: k, json: u.pieces[k] }, u.pieces[k].length);
   }
+  const done = new Set();
   for(const d of deletions){
+    const tag = d.key + '/' + d.id; if(done.has(tag)) continue; done.add(tag);
+    if(expected[d.key].has(d.id) && uploads.some(u => u.key === d.key && (u.id === d.id || d.id.startsWith(u.id + '__p')))) continue; /* ne pas supprimer ce qu'on vient d'écrire */
     if(n >= 400) await flush();
     batch.delete(itemsCollectionRef(d.key).doc(d.id)); n++;
   }
   await flush();
-  const meta = { saveId: uid(), savedAt: new Date().toISOString(), deviceId: st.deviceId, deviceName: st.deviceName, manifest, counts };
+  const meta = { saveId: uid(), savedAt: new Date().toISOString(), deviceId: st.deviceId, deviceName: st.deviceName, manifest, counts, parts };
   const ref = sauvegardeMetaRef();
   await fbDb.runTransaction(async tx => {
     const cur = await tx.get(ref);
